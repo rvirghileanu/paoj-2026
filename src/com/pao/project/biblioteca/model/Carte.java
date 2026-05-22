@@ -18,6 +18,8 @@ public class Carte {
     public String getTitlu() { return titlu; }
     public boolean isDisponibila() { return disponibila; }
     public void setDisponibila(boolean disponibila) { this.disponibila = disponibila; }
+    public String getAutor() { return autor; }
+    public ISBN getIsbn() { return isbn; }
 
     @Override
     public boolean equals(Object o) {

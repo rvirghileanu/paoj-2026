@@ -5,53 +5,56 @@ import com.pao.project.biblioteca.service.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Initializam serviciile Singleton
         CarteService carteService = CarteService.getInstance();
         CititorService cititorService = CititorService.getInstance();
 
         try {
-            System.out.println("PROIECT PAOJ BIBLIOTECA");
-            System.out.println("Virghileanu Maria-Roberta, grupa 233");
+            System.out.println("PROIECT PAOJ BIBLIOTECA - ETAPA 2");
+            System.out.println("Virghileanu Maria-Roberta, grupa 233\n");
 
-            // 1. adauga o sectiune noua
+            // 1. Adauga sectiune
             carteService.adaugaSectiune(new Sectiune("Beletristica"));
 
-            // 2. adauga o carte noua
-            ISBN isbn1 = new ISBN("978-606-1");
-            carteService.adaugaCarte(new Carte("Ion", "Liviu Rebreanu", isbn1), "Beletristica");
+            // 2. Adauga carti
+            carteService.adaugaCarte(new Carte("Ion", "Liviu Rebreanu", new ISBN("978-606-1")), "Beletristica");
             carteService.adaugaCarte(new Carte("Maitreyi", "Mircea Eliade", new ISBN("978-606-2")), "Beletristica");
 
-            // 3. inregistreaza un cititor nou
+            // 3. Inregistreaza cititori
             cititorService.inregistreazaCititor(new Cititor(1, "Popescu Ion", "ion@email.com"));
             cititorService.inregistreazaCititor(new Cititor(2, "Ionescu Ana", "ana@email.com"));
-            cititorService.inregistreazaCititor(new Cititor(3, "Andreescu Dan", "dan@email.com"));
 
-            // 4. afiseaza toti cititorii ordonati alfabetic (TreeSet workflow)
+            // 4. Listeaza cititori
             cititorService.listeazaToti();
 
-            // 5. cauta un cititor dupa ID (Map workflow)
+            // 5. Cauta cititor dupa ID
             Cititor c = cititorService.gasesteDupaId(1);
-            System.out.println("\nCititor gasit dupa ID: " + c.getNume());
+            System.out.println("\nCititor gasit: " + c.getNume());
 
-            // 6. cauta o carte dupa titlu
-            Carte carteGasita = carteService.cautaDupaTitlu("Ion");
-            System.out.println("Carte gasita: " + carteGasita);
-
-            // 7. imprumuta o carte catre un cititor
+            // 6. Imprumuta o carte (Executa TRANZACTIA)
             carteService.imprumutaCarte("Ion", c);
-            System.out.println("Status 'Ion' dupa imprumut: " + carteGasita.isDisponibila());
+            System.out.println("\n[Tranzactie Executata] Cartea 'Ion' a fost imprumutata cu succes.");
 
-            // 8. listeaza toate cartile dintr-o sectiune
-            carteService.listeazaCartiDinSectiune("Beletristica");
+            // 7. Cauta carte dupa titlu
+            Carte carteGasita = carteService.cautaDupaTitlu("Ion");
+            System.out.println("Status 'Ion' dupa imprumut (disponibila = false): " + carteGasita.isDisponibila());
 
-            // 9. returneaza o carte
+            // 8. Testam interogarile cu JOIN
+            System.out.println();
+            carteService.afiseazaToateImprumuturile(); // JOIN Imprumuturi
+
+            System.out.println();
+            cititorService.afiseazaStatisticiImprumuturi(); // JOIN Cititori
+
+            System.out.println();
+            carteService.listeazaCartiDinSectiune("Beletristica"); // JOIN Carti
+
+            // 9. Returneaza cartea
             carteService.returneazaCarte("Ion");
             System.out.println("\nCartea 'Ion' a fost returnata.");
 
-            // 10. sterge un cititor din sistem
-            cititorService.stergeCititor(3);
-            System.out.println("Cititorul cu ID 3 a fost eliminat.");
-            cititorService.listeazaToti();
+            // 10. Sterge un cititor
+            cititorService.stergeCititor(2);
+            System.out.println("Cititorul cu ID 2 a fost eliminat.");
 
         } catch (Exception e) {
             System.err.println("Eroare in sistem: " + e.getMessage());

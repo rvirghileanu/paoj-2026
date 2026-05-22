@@ -6,6 +6,7 @@ import java.util.List;
 public class Sectiune {
     private String nume;
     private List<Carte> carti;
+    private int id;
 
     public Sectiune(String nume) {
         this.nume = nume;
@@ -14,6 +15,8 @@ public class Sectiune {
 
     public String getNume() { return nume; }
     public List<Carte> getCarti() { return carti; }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
     public void adaugaCarte(Carte c) {
         this.carti.add(c);
