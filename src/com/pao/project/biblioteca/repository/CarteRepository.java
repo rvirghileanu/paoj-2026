@@ -18,12 +18,13 @@ public class CarteRepository implements Repository<Carte, String> {
 
     @Override
     public void save(Carte entity) {
-        String sql = "INSERT INTO Carti (isbn, titlu, autor, disponibila) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Carti (isbn, titlu, autor, disponibila, id_sectiune) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, entity.getIsbn().getCod());
             pstmt.setString(2, entity.getTitlu());
             pstmt.setString(3, entity.getAutor());
             pstmt.setInt(4, entity.isDisponibila() ? 1 : 0);
+            pstmt.setInt(5, entity.getIdSectiune());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Eroare la salvarea cartii: " + e.getMessage());

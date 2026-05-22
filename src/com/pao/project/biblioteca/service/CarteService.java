@@ -30,6 +30,14 @@ public class CarteService {
     }
 
     public void adaugaCarte(Carte c, String numeSectiune) throws EntitateNegasitaException {
+        // Căutăm secțiunea existentă pentru a-i afla ID-ul
+        Sectiune sectiune = sectiuneRepository.findAll().stream()
+                .filter(s -> s.getNume().equalsIgnoreCase(numeSectiune))
+                .findFirst()
+                .orElseThrow(() -> new EntitateNegasitaException("Sectiunea " + numeSectiune + " nu exista!"));
+
+        // Setăm ID-ul în carte și o salvăm
+        c.setIdSectiune(sectiune.getId());
         carteRepository.save(c);
         auditService.logAction("adauga_carte");
     }

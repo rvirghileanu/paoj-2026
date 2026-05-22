@@ -7,6 +7,7 @@ public class Carte {
     private String autor;
     private ISBN isbn;
     private boolean disponibila = true;
+    private int idSectiune;
 
     public Carte(String titlu, String autor, ISBN isbn) {
         this.titlu = titlu;
@@ -20,6 +21,8 @@ public class Carte {
     public void setDisponibila(boolean disponibila) { this.disponibila = disponibila; }
     public String getAutor() { return autor; }
     public ISBN getIsbn() { return isbn; }
+    public int getIdSectiune() { return idSectiune; }
+    public void setIdSectiune(int idSectiune) { this.idSectiune = idSectiune; }
 
     @Override
     public boolean equals(Object o) {
