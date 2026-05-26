@@ -46,12 +46,10 @@ public class ImprumutRepository implements Repository<Imprumut, Integer> {
                 connection.commit();
 
             } catch (SQLException e) {
-                // IN CAZ DE EROARE, DAM ROLLBACK
-                connection.rollback();
-                System.err.println("Eroare la tranzactia de imprumut. S-a efectuat rollback: " + e.getMessage());
+                try { connection.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+                System.err.println("Eroare la tranzactie (rollback executat): " + e.getMessage());
             } finally {
-                // RESTAURAM STAREA DEFAULT A CONEXIUNII
-                connection.setAutoCommit(true);
+                try { connection.setAutoCommit(true); } catch (SQLException ex) { ex.printStackTrace(); }
             }
         } catch (SQLException e) {
             e.printStackTrace();
